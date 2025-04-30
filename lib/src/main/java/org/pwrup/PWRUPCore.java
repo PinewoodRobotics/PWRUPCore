@@ -3,7 +3,7 @@
  */
 package org.pwrup;
 
-public class Library {
+public class PWRUPCore {
 
   public boolean someLibraryMethod() {
     return true;
