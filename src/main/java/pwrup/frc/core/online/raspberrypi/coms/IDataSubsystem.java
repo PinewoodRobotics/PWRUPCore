@@ -1,4 +1,4 @@
-package pwrup.frc.core.util.interfaces;
+package pwrup.frc.core.online.raspberrypi.coms;
 
 public interface IDataSubsystem {
   public byte[] getRawConstructedProtoData();
