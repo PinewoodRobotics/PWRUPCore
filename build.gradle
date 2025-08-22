@@ -43,10 +43,15 @@ dependencies {
     testImplementation "com.google.protobuf:protobuf-java:3.22.2"
     testImplementation 'org.junit.jupiter:junit-jupiter:5.10.1'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+    implementation 'com.github.godbrigero:autobahn_client:4c1ea78b06'
 }
 
 repositories {
     mavenCentral()
+    maven {
+        url = "https://jitpack.io"
+    }
 }
 
 test {
