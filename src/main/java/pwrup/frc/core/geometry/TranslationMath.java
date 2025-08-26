@@ -5,12 +5,10 @@ import edu.wpi.first.math.geometry.Translation2d;
 public class TranslationMath {
 
   public static double getNorm2(Translation2d translation) {
-    return (
-      translation.getX() *
-      translation.getX() +
-      translation.getY() *
-      translation.getY()
-    );
+    return (translation.getX() *
+        translation.getX() +
+        translation.getY() *
+            translation.getY());
   }
 
   /**
@@ -23,10 +21,9 @@ public class TranslationMath {
    * @return the return value, [0, 1]
    */
   public static double deadband(
-    double input,
-    double deadband,
-    double minValue
-  ) {
+      double input,
+      double deadband,
+      double minValue) {
     double output;
     double m = (1.0 - minValue) / (1.0 - deadband);
 
@@ -39,5 +36,21 @@ public class TranslationMath {
     }
 
     return output;
+  }
+
+  /**
+   * Apply a minimum threshold to a value.
+   * 
+   * @param value    the value to apply the minimum threshold to
+   * @param minValue the minimum threshold
+   * @return the value if abs(value) is greater than the minimum threshold, 0
+   *         otherwise
+   */
+  public static double applyMinimumThreshold(double value, double minValue) {
+    if (Math.abs(value) < minValue) {
+      return 0;
+    }
+
+    return value;
   }
 }
