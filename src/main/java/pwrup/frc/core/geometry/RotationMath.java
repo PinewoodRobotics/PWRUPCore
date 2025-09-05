@@ -47,4 +47,8 @@ public class RotationMath {
 
     return Math.min(diff, 360 - diff);
   }
+
+  public static double invertRadians(double initial) {
+    return initial > 0 ? initial - Math.PI : initial + Math.PI;
+  }
 }
