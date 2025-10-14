@@ -97,6 +97,9 @@ protobuf {
 
 sourceSets {
     main {
+        proto {
+            srcDir 'src/proto'
+        }
         java {
             srcDirs += "$buildDir/generated/source/proto/main/java"
         }

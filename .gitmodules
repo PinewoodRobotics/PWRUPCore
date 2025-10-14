@@ -1,0 +1,4 @@
+[submodule "src/proto"]
+	path = src/proto
+	url = https://github.com/PinewoodRobotics/proto.git
+	branch = main
