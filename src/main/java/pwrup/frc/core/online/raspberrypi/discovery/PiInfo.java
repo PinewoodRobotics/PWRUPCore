@@ -1,6 +1,8 @@
 package pwrup.frc.core.online.raspberrypi.discovery;
 
 import java.util.Map;
+import java.util.Optional;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -9,24 +11,25 @@ import lombok.Getter;
 public class PiInfo {
 
   private final String name;
-  private final String[] addresses;
-  private final int port;
-  private final Map<String, String> properties;
+  private final String hostname;
+  private final String hostnameLocal;
+  private final Optional<Integer> autobahnPort;
+  private final Optional<Integer> watchdogPort;
 
   @Override
   public String toString() {
-    return (
-      "PiInfo{" +
-      "name='" +
-      name +
-      '\'' +
-      ", addresses=" +
-      String.join(",", addresses) +
-      ", port=" +
-      port +
-      ", properties=" +
-      properties +
-      '}'
-    );
+    return ("PiInfo{" +
+        "name='" +
+        name +
+        '\'' +
+        ", hostname=" +
+        hostname +
+        ", hostnameLocal=" +
+        hostnameLocal +
+        ", autobahnPort=" +
+        autobahnPort +
+        ", watchdogPort=" +
+        watchdogPort +
+        '}');
   }
 }

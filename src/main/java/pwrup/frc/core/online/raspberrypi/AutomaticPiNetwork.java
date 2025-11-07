@@ -16,7 +16,6 @@ public class AutomaticPiNetwork<P extends Enum<P> & Comparable<P> & WeightedProc
     private final List<P> processesToRun;
     private final int portAutobahn;
     private final int portComs;
-    private final double totalWeight;
 
     @SafeVarargs
     public AutomaticPiNetwork(int timeoutSeconds, int portAutobahn, int portComs, P... processesToRun) {
@@ -25,7 +24,6 @@ public class AutomaticPiNetwork<P extends Enum<P> & Comparable<P> & WeightedProc
         this.processesToRun = List.of(processesToRun);
         this.portAutobahn = portAutobahn;
         this.portComs = portComs;
-        this.totalWeight = Arrays.stream(processesToRun).mapToDouble(p -> p.getWeight()).sum();
     }
 
     public AutomaticPiNetwork(int timeoutSeconds, P... processesToRun) {
@@ -37,15 +35,17 @@ public class AutomaticPiNetwork<P extends Enum<P> & Comparable<P> & WeightedProc
         try {
             var allInfos = PiDiscoveryUtil.discover(timeoutSeconds);
             for (PiInfo piInfo : allInfos) {
-                var addr = piInfo.getAddresses()[0];
+                var systemName = piInfo.getName();
                 var processesOnPi = new ArrayList<P>();
                 for (ConstrainedProcess<?> constrainedProcess : constrainedProcesses) {
-                    if (constrainedProcess.getPisToRunOn().contains(addr)) {
+                    if (constrainedProcess.getPisToRunOn().contains(systemName)) {
                         processesOnPi.add((P) constrainedProcess.getProcessToRun());
                     }
                 }
 
-                add(new RaspberryPi<P>(addr, portAutobahn, portComs, (P[]) processesOnPi.toArray()));
+                add(new RaspberryPi<P>(piInfo.getHostname(), piInfo.getAutobahnPort().orElse(portAutobahn),
+                        piInfo.getWatchdogPort().orElse(portComs),
+                        (P[]) processesOnPi.toArray()));
             }
         } catch (IOException e) {
             throw new RuntimeException("Failed to discover Pis", e);
@@ -99,10 +99,6 @@ public class AutomaticPiNetwork<P extends Enum<P> & Comparable<P> & WeightedProc
     /**
      * Resolves which Raspberry Pi should run the given process.
      * 
-     * <p>
-     * NOTE: Placeholder implementation. Replace with real load-balancing logic.
-     * Currently routes to the main Pi.
-     * </p>
      */
     private RaspberryPi<P> getPiForProcess(P process) {
         var weightByPi = splitAssignedWeightByPi();

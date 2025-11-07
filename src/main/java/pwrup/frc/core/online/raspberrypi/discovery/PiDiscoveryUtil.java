@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.CopyOnWriteArrayList;
 import javax.jmdns.JmDNS;
 import javax.jmdns.ServiceEvent;
@@ -23,6 +24,23 @@ public class PiDiscoveryUtil {
    * @return list of discovered PiInfo objects
    * @throws IOException
    * @throws InterruptedException
+   */
+
+  /*
+   * _info = ServiceInfo(
+   * TYPE_,
+   * f"{hostname}.{TYPE_}",
+   * addresses=addresses,
+   * port=9999,
+   * server=hostname_local,
+   * properties={
+   * "hostname": hostname,
+   * "hostname_local": hostname_local,
+   * "system_name": system_name,
+   * "watchdog_port": system_config.watchdog.port,
+   * "autobahn_port": system_config.autobahn.port,
+   * },
+   * )
    */
   public static List<PiInfo> discover(int timeoutSeconds)
       throws IOException, InterruptedException {
@@ -44,15 +62,12 @@ public class PiDiscoveryUtil {
         @Override
         public void serviceResolved(ServiceEvent event) {
           ServiceInfo info = event.getInfo();
-          String name = info.getName();
-          String[] hosts = info.getHostAddresses();
-          int port = info.getPort();
-          // copy properties into a regular map
-          Map<String, String> props = new HashMap<>();
-          for (String key : Collections.list(info.getPropertyNames())) {
-            props.put(key, info.getPropertyString(key));
-          }
-          found.add(new PiInfo(name, hosts, port, props));
+          var props = getServicePropertiesRaw(info);
+          found.add(new PiInfo(props.get("system_name"), props.get("hostname"), props.get("hostname_local"),
+              props.get("autobahn_port") != null ? Optional.of(Integer.parseInt(props.get("autobahn_port")))
+                  : Optional.empty(),
+              props.get("watchdog_port") != null ? Optional.of(Integer.parseInt(props.get("watchdog_port")))
+                  : Optional.empty()));
         }
       };
 
@@ -63,5 +78,14 @@ public class PiDiscoveryUtil {
     }
 
     return found;
+  }
+
+  private static Map<String, String> getServicePropertiesRaw(ServiceInfo info) {
+    Map<String, String> props = new HashMap<>();
+    for (String key : Collections.list(info.getPropertyNames())) {
+      props.put(key, info.getPropertyString(key));
+    }
+
+    return props;
   }
 }
