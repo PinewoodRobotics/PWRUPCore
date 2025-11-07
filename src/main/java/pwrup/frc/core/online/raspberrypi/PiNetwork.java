@@ -209,4 +209,15 @@ public class PiNetwork<P extends Enum<P>> {
     public boolean restartAllPis() {
         return stopAllPis() && startAllPis();
     }
+
+    /**
+     * Provides access to the managed Raspberry Pis.
+     *
+     * <p>
+     * Intended for subclasses that need to make balancing or scheduling decisions.
+     * </p>
+     */
+    protected List<RaspberryPi<P>> getPis() {
+        return raspberryPis;
+    }
 }

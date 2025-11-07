@@ -14,6 +14,7 @@ import java.time.Duration;
 import java.util.List;
 import java.util.Map;
 import lombok.Getter;
+import lombok.Setter;
 import pwrup.frc.core.constant.RaspberryPiConstants;
 
 /**
@@ -50,6 +51,10 @@ public class RaspberryPi<P extends Enum<P>> extends Address {
   private final String comsAddress;
   private final List<P> processesToRun;
 
+  @Getter
+  @Setter
+  private double weight = 0;
+
   /**
    * Constructs a RaspberryPi instance with specified network addresses and
    * processes.
@@ -64,7 +69,7 @@ public class RaspberryPi<P extends Enum<P>> extends Address {
     super(ipv6, portAutobahn);
 
     this.comsAddress = "http://" + ipv6 + ":" + portComs;
-    this.processesToRun = List.of(processesToRun);
+    this.processesToRun = new java.util.ArrayList<>(java.util.List.of(processesToRun));
   }
 
   /**
@@ -105,6 +110,10 @@ public class RaspberryPi<P extends Enum<P>> extends Address {
   public RaspberryPi(String ipv6, P... processesToRun) {
     this(ipv6, RaspberryPiConstants.DEFAULT_PORT_AUTOB, RaspberryPiConstants.DEFAULT_PORT_COM,
         processesToRun);
+  }
+
+  public void addProcess(P process) {
+    processesToRun.add(process);
   }
 
   /**

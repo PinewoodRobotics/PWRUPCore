@@ -12,22 +12,20 @@ import javax.jmdns.ServiceEvent;
 import javax.jmdns.ServiceInfo;
 import javax.jmdns.ServiceListener;
 
-/**
- * Utility class for discovering Raspberry Pis advertising a custom mDNS service.
- */
 public class PiDiscoveryUtil {
 
-  private static final String SERVICE_TYPE = "_deploy._udp.local.";
+  private static final String SERVICE_TYPE = "_autobahn._udp.local.";
 
   /**
    * Discovers Pis advertising the SERVICE_TYPE on the local network.
+   * 
    * @param timeoutSeconds how long to wait for responses
    * @return list of discovered PiInfo objects
    * @throws IOException
    * @throws InterruptedException
    */
   public static List<PiInfo> discover(int timeoutSeconds)
-    throws IOException, InterruptedException {
+      throws IOException, InterruptedException {
     List<PiInfo> found = new CopyOnWriteArrayList<>();
     InetAddress addr = InetAddress.getLocalHost();
     try (JmDNS jmdns = JmDNS.create(addr)) {
@@ -63,6 +61,7 @@ public class PiDiscoveryUtil {
       Thread.sleep(timeoutSeconds * 1000L);
       jmdns.removeServiceListener(SERVICE_TYPE, listener);
     }
+
     return found;
   }
 }
