@@ -80,6 +80,7 @@ publishing {
     }
 }
 
+// --- Protobuf setup ---
 protobuf {
     protoc {
         artifact = "com.google.protobuf:protoc:3.22.2" // Use the desired protoc version
@@ -93,6 +94,11 @@ protobuf {
             }
         }
     }
+}
+
+// Make sure protobuf compilation runs before building Java classes
+tasks.named('compileJava') {
+    dependsOn tasks.named('generateProto')
 }
 
 sourceSets {
