@@ -63,7 +63,25 @@ public class PiDiscoveryUtil {
         public void serviceResolved(ServiceEvent event) {
           ServiceInfo info = event.getInfo();
           var props = getServicePropertiesRaw(info);
-          found.add(new PiInfo(props.get("system_name"), props.get("hostname"), props.get("hostname_local"),
+
+          // Get hostname with fallbacks: property -> server -> first host address
+          String hostname = props.get("hostname");
+          if (hostname == null || hostname.isEmpty()) {
+            hostname = info.getServer();
+          }
+
+          if (hostname == null || hostname.isEmpty()) {
+            var hostAddresses = info.getHostAddresses();
+            if (hostAddresses != null && hostAddresses.length > 0) {
+              hostname = hostAddresses[0];
+            }
+          }
+
+          if (hostname == null || hostname.isEmpty()) {
+            return;
+          }
+
+          found.add(new PiInfo(props.get("system_name"), hostname, props.get("hostname_local"),
               props.get("autobahn_port") != null ? Optional.of(Integer.parseInt(props.get("autobahn_port")))
                   : Optional.empty(),
               props.get("watchdog_port") != null ? Optional.of(Integer.parseInt(props.get("watchdog_port")))
