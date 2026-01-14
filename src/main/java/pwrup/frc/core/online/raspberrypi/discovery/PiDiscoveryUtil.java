@@ -15,7 +15,7 @@ import javax.jmdns.ServiceListener;
 
 public class PiDiscoveryUtil {
 
-  private static final String SERVICE_TYPE = "_autobahn._udp.local.";
+  private static final String SERVICE_TYPE = "_watchdog._udp.local.";
 
   /**
    * Discovers Pis advertising the SERVICE_TYPE on the local network.
@@ -77,7 +77,7 @@ public class PiDiscoveryUtil {
             }
           }
 
-          if (hostname == null || hostname.isEmpty()) {
+          if (hostname == null || hostname.isEmpty() || hostname.toLowerCase().contains("autobahn")) {
             return;
           }
 
@@ -86,6 +86,8 @@ public class PiDiscoveryUtil {
                   : Optional.empty(),
               props.get("watchdog_port") != null ? Optional.of(Integer.parseInt(props.get("watchdog_port")))
                   : Optional.empty()));
+
+          System.out.println(found.get(found.size() - 1));
         }
       };
 
