@@ -77,7 +77,7 @@ public class PiDiscoveryUtil {
             }
           }
 
-          if (hostname == null || hostname.isEmpty() || hostname.toLowerCase().contains("autobahn")) {
+          if (hostname == null || hostname.isEmpty()) {
             return;
           }
 
@@ -86,8 +86,6 @@ public class PiDiscoveryUtil {
                   : Optional.empty(),
               props.get("watchdog_port") != null ? Optional.of(Integer.parseInt(props.get("watchdog_port")))
                   : Optional.empty()));
-
-          System.out.println(found.get(found.size() - 1));
         }
       };
 
