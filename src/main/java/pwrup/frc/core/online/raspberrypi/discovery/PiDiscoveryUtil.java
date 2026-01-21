@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -16,6 +17,7 @@ import javax.jmdns.ServiceListener;
 public class PiDiscoveryUtil {
 
   private static final String SERVICE_TYPE = "_watchdog._udp.local.";
+  private static HashSet foundRaspberryPiSet = new HashSet<>();
 
   /**
    * Discovers Pis advertising the SERVICE_TYPE on the local network.
@@ -77,11 +79,24 @@ public class PiDiscoveryUtil {
             }
           }
 
-          if (hostname == null || hostname.isEmpty()) {
+          if (hostname == null || hostname.isEmpty() || props.get("system_name").contains("null")) {
             return;
           }
 
-          found.add(new PiInfo(props.get("system_name"), hostname, props.get("hostname_local"),
+          var pi = new PiInfo(props.get("system_name"), hostname, props.get("hostname_local"),
+              props.get("autobahn_port") != null ? Optional.of(Integer.parseInt(props.get("autobahn_port")))
+                  : Optional.empty(),
+              props.get("watchdog_port") != null ? Optional.of(Integer.parseInt(props.get("watchdog_port")))
+                  : Optional.empty());
+
+          if (foundRaspberryPiSet.contains(pi)) {
+            return;
+          }
+
+          foundRaspberryPiSet.add(pi);
+          found.add(pi);
+
+          System.out.println(new PiInfo(props.get("system_name"), hostname, props.get("hostname_local"),
               props.get("autobahn_port") != null ? Optional.of(Integer.parseInt(props.get("autobahn_port")))
                   : Optional.empty(),
               props.get("watchdog_port") != null ? Optional.of(Integer.parseInt(props.get("watchdog_port")))

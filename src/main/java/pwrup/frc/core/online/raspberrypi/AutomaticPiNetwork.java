@@ -43,7 +43,7 @@ public class AutomaticPiNetwork<P extends Enum<P> & Comparable<P> & WeightedProc
           }
         }
 
-        var pi = new RaspberryPi<P>(piInfo.getHostname(), piInfo.getAutobahnPort().orElse(portAutobahn),
+        var pi = new RaspberryPi<P>(piInfo.getHostnameLocal(), piInfo.getAutobahnPort().orElse(portAutobahn),
             piInfo.getWatchdogPort().orElse(portComs));
         for (P process : processesOnPi) {
           pi.addProcess(process);
