@@ -6,7 +6,7 @@ import com.google.protobuf.InvalidProtocolBufferException;
 
 import autobahn.client.AutobahnClient;
 import autobahn.client.NamedCallback;
-import proto.status.PiStatusOuterClass.LogMessage;
+import core4765.proto.status.PiStatusOuterClass.LogMessage;
 
 public class PrintPiLogs {
     public static void ToSystemOut(AutobahnClient client, String piLoggingTopic) {
