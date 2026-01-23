@@ -134,7 +134,7 @@ public class RaspberryPi<P extends Enum<P>> extends Address {
    *         {@code false} otherwise
    */
   public boolean setConfig(String rawJsonConfig) {
-    Map<String, String> configPayload = Map.of("config", rawJsonConfig);
+    Map<String, String> configPayload = Map.of("config_base64", rawJsonConfig);
     String jsonBody = gson.toJson(configPayload);
 
     HttpRequest request = HttpRequest
