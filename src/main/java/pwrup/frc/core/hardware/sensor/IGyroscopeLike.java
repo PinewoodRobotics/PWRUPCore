@@ -1,118 +1,28 @@
 package pwrup.frc.core.hardware.sensor;
 
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.geometry.Translation3d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
+
 public interface IGyroscopeLike {
-  public double[] getYPR();
 
-  public double[] getLinearAccelerationXYZ();
+  public ChassisSpeeds getVelocity();
 
-  public double[] getAngularVelocityXYZ();
+  public ChassisSpeeds getAcceleration();
 
-  public double[] getQuaternion();
+  public Rotation3d getRotation();
 
-  public double[] getLinearVelocityXYZ();
+  public void resetRotation(Rotation3d newRotation);
 
-  public double[] getPoseXYZ();
+  // Default methods
 
-  public void reset();
-
-  public void setAngleAdjustment(double angle);
-
-  public void setPositionAdjustment(double x, double y, double z);
-
-  // Default implementations
-
-  public default double getYaw() {
-    var ypr = getYPR();
-    return ypr[0];
+  public default void resetRotation(Rotation2d newRotation) {
+    resetRotation(new Rotation3d(0, 0, newRotation.getRadians()));
   }
 
-  public default double getPitch() {
-    var ypr = getYPR();
-    return ypr[1];
-  }
-
-  public default double getRoll() {
-    var ypr = getYPR();
-    return ypr[2];
-  }
-
-  public default double getLinearAccelerationX() {
-    var accel = getLinearAccelerationXYZ();
-    return accel[0];
-  }
-
-  public default double getLinearAccelerationY() {
-    var accel = getLinearAccelerationXYZ();
-    return accel[1];
-  }
-
-  public default double getLinearAccelerationZ() {
-    var accel = getLinearAccelerationXYZ();
-    return accel[2];
-  }
-
-  public default double getAngularVelocityX() {
-    var vel = getAngularVelocityXYZ();
-    return vel[0];
-  }
-
-  public default double getAngularVelocityY() {
-    var vel = getAngularVelocityXYZ();
-    return vel[1];
-  }
-
-  public default double getAngularVelocityZ() {
-    var vel = getAngularVelocityXYZ();
-    return vel[2];
-  }
-
-  public default double getQuaternionW() {
-    var quat = getQuaternion();
-    return quat[0];
-  }
-
-  public default double getQuaternionX() {
-    var quat = getQuaternion();
-    return quat[1];
-  }
-
-  public default double getQuaternionY() {
-    var quat = getQuaternion();
-    return quat[2];
-  }
-
-  public default double getQuaternionZ() {
-    var quat = getQuaternion();
-    return quat[3];
-  }
-
-  public default double getLinearVelocityX() {
-    var vel = getLinearVelocityXYZ();
-    return vel[0];
-  }
-
-  public default double getLinearVelocityY() {
-    var vel = getLinearVelocityXYZ();
-    return vel[1];
-  }
-
-  public default double getLinearVelocityZ() {
-    var vel = getLinearVelocityXYZ();
-    return vel[2];
-  }
-
-  public default double getPoseX() {
-    var pose = getPoseXYZ();
-    return pose[0];
-  }
-
-  public default double getPoseY() {
-    var pose = getPoseXYZ();
-    return pose[1];
-  }
-
-  public default double getPoseZ() {
-    var pose = getPoseXYZ();
-    return pose[2];
+  public default Rotation2d getRotation2d() {
+    return getRotation().toRotation2d();
   }
 }
