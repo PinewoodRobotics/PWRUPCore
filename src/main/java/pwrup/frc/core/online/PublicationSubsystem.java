@@ -1,7 +1,8 @@
 package pwrup.frc.core.online;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -12,7 +13,7 @@ import pwrup.frc.core.proto.IDataClass;
 
 public class PublicationSubsystem extends SubsystemBase {
 
-  private final List<IDataClass> dataClasses;
+  private final Map<String, IDataClass> dataClasses;
   private static PublicationSubsystem self;
   private static AutobahnClient client;
 
@@ -46,20 +47,25 @@ public class PublicationSubsystem extends SubsystemBase {
 
   public PublicationSubsystem(AutobahnClient client, IDataClass... dataClasses) {
     PublicationSubsystem.client = client;
-    this.dataClasses = new ArrayList<>(List.of(dataClasses));
+    this.dataClasses = new LinkedHashMap<>();
+    for (var dataClass : dataClasses) {
+      this.dataClasses.put(dataClass.getClass().getName(), dataClass);
+    }
   }
 
   public static void addDataClass(IDataClass dataClass) {
-    GetInstance(PublicationSubsystem.client).dataClasses.add(dataClass);
+    GetInstance(PublicationSubsystem.client).dataClasses.put(dataClass.getClass().getName(), dataClass);
   }
 
   public static void addDataClasses(IDataClass... dataClasses) {
-    GetInstance(PublicationSubsystem.client).dataClasses.addAll(List.of(dataClasses));
+    var instance = GetInstance(PublicationSubsystem.client);
+    Arrays.stream(dataClasses)
+        .forEach(dataClass -> instance.dataClasses.put(dataClass.getClass().getName(), dataClass));
   }
 
   @Override
   public void periodic() {
-    for (var dataClass : dataClasses) {
+    for (var dataClass : dataClasses.values()) {
       final byte[] data = dataClass.getRawConstructedProtoData();
       final String topic = dataClass.getPublishTopic();
       publishExecutor.execute(() -> PublicationSubsystem.client.publish(topic, data));
