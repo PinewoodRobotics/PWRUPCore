@@ -71,4 +71,8 @@ public class PublicationSubsystem extends SubsystemBase {
       publishExecutor.execute(() -> PublicationSubsystem.client.publish(topic, data));
     }
   }
+
+  public static void ClearAll() {
+    self.dataClasses.clear();
+  }
 }
