@@ -73,6 +73,6 @@ public class PublicationSubsystem extends SubsystemBase {
   }
 
   public static void ClearAll() {
-    self.dataClasses.clear();
+    GetInstance(PublicationSubsystem.client).dataClasses.clear();
   }
 }
