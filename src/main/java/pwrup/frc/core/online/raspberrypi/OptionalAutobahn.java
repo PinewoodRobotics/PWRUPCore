@@ -99,7 +99,7 @@ public class OptionalAutobahn extends AutobahnClient {
       }
     }
 
-    cachedOperations.clear();
+    // cachedOperations.clear(); 
   }
 
   /**
