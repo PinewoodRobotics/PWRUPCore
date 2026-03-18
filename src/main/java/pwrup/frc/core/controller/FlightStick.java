@@ -48,9 +48,7 @@ public class FlightStick extends Joystick {
      */
     @Override
     public String toString() {
-      return (
-        "ButtonEnum{" + "name='" + name() + '\'' + ", intValue=" + value + '}'
-      );
+      return ("ButtonEnum{" + "name='" + name() + '\'' + ", intValue=" + value + '}');
     }
 
     /**
@@ -89,9 +87,7 @@ public class FlightStick extends Joystick {
      */
     @Override
     public String toString() {
-      return (
-        "ButtonEnum{" + "name='" + name() + '\'' + ", intValue=" + value + '}'
-      );
+      return ("ButtonEnum{" + "name='" + name() + '\'' + ", intValue=" + value + '}');
     }
 
     /**
@@ -105,7 +101,9 @@ public class FlightStick extends Joystick {
 
   /**
    * @param port the port of the controller
-   * @throws NoChannelFoundException if the channel is invalid that means that some code upstairs is buggy and needs to be fixed
+   * @throws NoChannelFoundException if the channel is invalid that means that
+   *                                 some code upstairs is buggy and needs to be
+   *                                 fixed
    */
   public FlightStick(int port) {
     super(port);
@@ -142,142 +140,133 @@ public class FlightStick extends Joystick {
 
   public JoystickButton B5() {
     return new JoystickButton(
-      FlightStick.this,
-      FlightStick.ButtonEnum.B5.value
-    );
+        FlightStick.this,
+        FlightStick.ButtonEnum.B5.value);
   }
 
   public JoystickButton B6() {
     return new JoystickButton(
-      FlightStick.this,
-      FlightStick.ButtonEnum.B6.value
-    );
+        FlightStick.this,
+        FlightStick.ButtonEnum.B6.value);
   }
 
   public JoystickButton B7() {
     return new JoystickButton(
-      FlightStick.this,
-      FlightStick.ButtonEnum.B7.value
-    );
+        FlightStick.this,
+        FlightStick.ButtonEnum.B7.value);
   }
 
   public JoystickButton B8() {
     return new JoystickButton(
-      FlightStick.this,
-      FlightStick.ButtonEnum.B8.value
-    );
+        FlightStick.this,
+        FlightStick.ButtonEnum.B8.value);
   }
 
   public JoystickButton leftSliderUp() {
     return new JoystickButton(
-      FlightStick.this,
-      FlightStick.ButtonEnum.LEFTSLIDERUP.value
-    );
+        FlightStick.this,
+        FlightStick.ButtonEnum.LEFTSLIDERUP.value);
   }
 
   public JoystickButton leftSliderDown() {
     return new JoystickButton(
-      FlightStick.this,
-      FlightStick.ButtonEnum.LEFTSLIDERDOWN.value
-    );
+        FlightStick.this,
+        FlightStick.ButtonEnum.LEFTSLIDERDOWN.value);
   }
 
   public JoystickButton rightSliderUp() {
     return new JoystickButton(
-      FlightStick.this,
-      FlightStick.ButtonEnum.RIGHTSLIDERUP.value
-    );
+        FlightStick.this,
+        FlightStick.ButtonEnum.RIGHTSLIDERUP.value);
   }
 
   public JoystickButton rightSliderDown() {
     return new JoystickButton(
-      FlightStick.this,
-      FlightStick.ButtonEnum.RIGHTSLIDERDOWN.value
-    );
+        FlightStick.this,
+        FlightStick.ButtonEnum.RIGHTSLIDERDOWN.value);
   }
 
   public JoystickButton mysteryButton() {
     return new JoystickButton(
-      FlightStick.this,
-      FlightStick.ButtonEnum.MYSTERYBUTTON.value
-    );
+        FlightStick.this,
+        FlightStick.ButtonEnum.MYSTERYBUTTON.value);
   }
 
   public JoystickButton mysteryButton2() {
     return new JoystickButton(
-      FlightStick.this,
-      FlightStick.ButtonEnum.MYSTERYBUTTON2.value
-    );
+        FlightStick.this,
+        FlightStick.ButtonEnum.MYSTERYBUTTON2.value);
   }
 
   public JoystickButton scrollPress() {
     return new JoystickButton(
-      FlightStick.this,
-      FlightStick.ButtonEnum.SCROLLPRESS.value
-    );
+        FlightStick.this,
+        FlightStick.ButtonEnum.SCROLLPRESS.value);
   }
 
   public JoystickButton B16() {
     return new JoystickButton(
-      FlightStick.this,
-      FlightStick.ButtonEnum.B16.value
-    );
+        FlightStick.this,
+        FlightStick.ButtonEnum.B16.value);
   }
 
   public JoystickButton B17() {
     return new JoystickButton(
-      FlightStick.this,
-      FlightStick.ButtonEnum.B17.value
-    );
+        FlightStick.this,
+        FlightStick.ButtonEnum.B17.value);
   }
 
   public JoystickButton trigger() {
     return new JoystickButton(
-      FlightStick.this,
-      FlightStick.ButtonEnum.TRIGGER.value
-    );
+        FlightStick.this,
+        FlightStick.ButtonEnum.TRIGGER.value);
   }
 
   public JoystickButton B19() {
     return new JoystickButton(
-      FlightStick.this,
-      FlightStick.ButtonEnum.B19.value
-    );
+        FlightStick.this,
+        FlightStick.ButtonEnum.B19.value);
   }
 
   public JoystickButton XBOX() {
     return new JoystickButton(
-      FlightStick.this,
-      FlightStick.ButtonEnum.XBOX.value
-    );
+        FlightStick.this,
+        FlightStick.ButtonEnum.XBOX.value);
   }
 
   public JoystickButton screenshare() {
     return new JoystickButton(
-      FlightStick.this,
-      FlightStick.ButtonEnum.SCREENSHARE.value
-    );
+        FlightStick.this,
+        FlightStick.ButtonEnum.SCREENSHARE.value);
   }
 
   public JoystickButton upload() {
     return new JoystickButton(
-      FlightStick.this,
-      FlightStick.ButtonEnum.UPLOAD.value
-    );
+        FlightStick.this,
+        FlightStick.ButtonEnum.UPLOAD.value);
   }
 
+  /**
+   * @orientation +x => forward, -x => backward
+   * @return the x value of the joystick in the custom coordinate system outlined
+   *         above
+   */
   public double getJoystickX() {
-    return FlightStick.this.getRawAxis(FlightStick.AxisEnum.JOYSTICKX.value);
+    return -FlightStick.this.getRawAxis(FlightStick.AxisEnum.JOYSTICKX.value);
   }
 
+  /**
+   * @orientation +y => left, -y => right
+   * @return the y value of the joystick in the custom coordinate system outlined
+   *         above
+   */
   public double getJoystickY() {
-    return FlightStick.this.getRawAxis(FlightStick.AxisEnum.JOYSTICKY.value);
+    return -FlightStick.this.getRawAxis(FlightStick.AxisEnum.JOYSTICKY.value);
   }
 
   public double getJoystickRotation() {
     return FlightStick.this.getRawAxis(
-        FlightStick.AxisEnum.JOYSTICKROTATION.value
-      );
+        FlightStick.AxisEnum.JOYSTICKROTATION.value);
   }
 
   public double getH2X() {
