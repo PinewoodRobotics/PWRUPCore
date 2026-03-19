@@ -64,8 +64,8 @@ public class FlightStick extends Joystick {
    * @apiNote this is for axis channels in a controller for the logitec
    */
   public enum AxisEnum {
-    JOYSTICKX(0),
-    JOYSTICKY(1),
+    JOYSTICKY(0),
+    JOYSTICKX(1),
     JOYSTICKROTATION(2),
     H2X(3),
     H2Y(4),
