@@ -265,7 +265,7 @@ public class FlightStick extends Joystick {
   }
 
   public double getJoystickRotation() {
-    return FlightStick.this.getRawAxis(
+    return -FlightStick.this.getRawAxis(
         FlightStick.AxisEnum.JOYSTICKROTATION.value);
   }
 
