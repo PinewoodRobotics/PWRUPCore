@@ -1,16 +1,16 @@
 package pwrup.frc.core.hardware.sensor;
 
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Rotation3d;
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.geometry.Translation3d;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import org.wpilib.math.geometry.Rotation2d;
+import org.wpilib.math.geometry.Rotation3d;
+import org.wpilib.math.geometry.Translation2d;
+import org.wpilib.math.geometry.Translation3d;
+import org.wpilib.math.kinematics.ChassisVelocities;
 
 public interface IGyroscopeLike {
 
-  public ChassisSpeeds getVelocity();
+  public ChassisVelocities getVelocity();
 
-  public ChassisSpeeds getAcceleration();
+  public ChassisVelocities getAcceleration();
 
   public Rotation3d getRotation();
 

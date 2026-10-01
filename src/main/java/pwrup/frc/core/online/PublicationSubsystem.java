@@ -8,10 +8,10 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 import autobahn.client.AutobahnClient;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import org.wpilib.command3.Mechanism;
 import pwrup.frc.core.proto.IDataClass;
 
-public class PublicationSubsystem extends SubsystemBase {
+public class PublicationSubsystem implements Mechanism {
 
   private final Map<String, IDataClass> dataClasses;
   private static PublicationSubsystem self;
@@ -51,6 +51,7 @@ public class PublicationSubsystem extends SubsystemBase {
     for (var dataClass : dataClasses) {
       this.dataClasses.put(dataClass.getClass().getName(), dataClass);
     }
+    getRegisteredScheduler().addPeriodic(this::periodic);
   }
 
   public static void addDataClass(IDataClass dataClass) {
@@ -63,7 +64,6 @@ public class PublicationSubsystem extends SubsystemBase {
         .forEach(dataClass -> instance.dataClasses.put(dataClass.getClass().getName(), dataClass));
   }
 
-  @Override
   public void periodic() {
     for (var dataClass : dataClasses.values()) {
       final byte[] data = dataClass.getRawConstructedProtoData();

@@ -1,8 +1,8 @@
 package pwrup.frc.core.controller;
 
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import java.util.List;
+import org.wpilib.command3.button.JoystickButton;
+import org.wpilib.driverstation.Joystick;
 
 public class OperatorPanel extends Joystick {
 
@@ -10,17 +10,16 @@ public class OperatorPanel extends Joystick {
    * @implNote the default button enum for the OperatorPanel
    */
   public enum ButtonEnum {
-    // button indexes begin at 1 for some reason
-    GREENBUTTON(1),
-    REDBUTTON(2),
-    BLACKBUTTON(3),
-    METALSWITCHDOWN(4),
-    TOGGLEWHEELMIDDOWN(5),
-    TOGGLEWHEELMIDDLE(6),
-    TOGGLEWHEELMIDUP(7),
-    TOGGLEWHEELUP(8),
-    STICKUP(9),
-    STICKDOWN(10);
+    GREENBUTTON(0),
+    REDBUTTON(1),
+    BLACKBUTTON(2),
+    METALSWITCHDOWN(3),
+    TOGGLEWHEELMIDDOWN(4),
+    TOGGLEWHEELMIDDLE(5),
+    TOGGLEWHEELMIDUP(6),
+    TOGGLEWHEELUP(7),
+    STICKUP(8),
+    STICKDOWN(9);
 
     public int value;
 

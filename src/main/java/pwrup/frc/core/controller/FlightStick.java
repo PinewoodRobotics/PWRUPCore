@@ -1,8 +1,8 @@
 package pwrup.frc.core.controller;
 
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import java.util.List;
+import org.wpilib.command3.button.JoystickButton;
+import org.wpilib.driverstation.Joystick;
 
 public class FlightStick extends Joystick {
 
@@ -10,29 +10,28 @@ public class FlightStick extends Joystick {
    * @implNote the default button enum for the Flightstick
    */
   public enum ButtonEnum {
-    // button indexes begin at 1 for some reason
-    A(1),
-    B(2),
-    X(3),
-    Y(4),
-    B5(5),
-    B6(6),
-    B7(7),
-    B8(8),
-    LEFTSLIDERUP(9),
-    LEFTSLIDERDOWN(10),
-    RIGHTSLIDERUP(11),
-    RIGHTSLIDERDOWN(12),
-    MYSTERYBUTTON(13),
-    MYSTERYBUTTON2(14),
-    SCROLLPRESS(15),
-    B16(16),
-    B17(17),
-    TRIGGER(18),
-    B19(19),
-    XBOX(20),
-    SCREENSHARE(21),
-    UPLOAD(22);
+    A(0),
+    B(1),
+    X(2),
+    Y(3),
+    B5(4),
+    B6(5),
+    B7(6),
+    B8(7),
+    LEFTSLIDERUP(8),
+    LEFTSLIDERDOWN(9),
+    RIGHTSLIDERUP(10),
+    RIGHTSLIDERDOWN(11),
+    MYSTERYBUTTON(12),
+    MYSTERYBUTTON2(13),
+    SCROLLPRESS(14),
+    B16(15),
+    B17(16),
+    TRIGGER(17),
+    B19(18),
+    XBOX(19),
+    SCREENSHARE(20),
+    UPLOAD(21);
 
     public int value;
 

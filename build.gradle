@@ -1,50 +1,17 @@
 plugins {
-    id "java"
-    id "edu.wpi.first.GradleRIO" version "2026.2.1"
-    id "com.google.protobuf" version "0.9.3"
-    id "maven-publish" // For publishing as a library
+    id "java-library"
+    id "maven-publish"
+    id "org.wpilib.GradleRIO" version "2027.0.0-alpha-7"
+    id "com.google.protobuf" version "0.10.0"
 }
+
+def protobufVersion = "3.25.8"
+def lombokVersion = "1.18.42"
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
-}
-
-// Set to true to use debug for JNI.
-wpi.java.debugJni = false
-
-// Defining my dependencies
-dependencies {
-    // WPILib dependencies
-    annotationProcessor wpi.java.deps.wpilibAnnotations()
-    implementation wpi.java.deps.wpilib()
-    implementation wpi.java.vendor.java()
-
-    // Native libraries
-    nativeDebug wpi.java.deps.wpilibJniDebug(wpi.platforms.desktop)
-    nativeDebug wpi.java.vendor.jniDebug(wpi.platforms.desktop)
-    simulationDebug wpi.sim.enableDebug()
-
-    nativeRelease wpi.java.deps.wpilibJniRelease(wpi.platforms.desktop)
-    nativeRelease wpi.java.vendor.jniRelease(wpi.platforms.desktop)
-    simulationRelease wpi.sim.enableRelease()
-
-    // Other dependencies
-    implementation 'com.google.code.gson:gson:2.10.1'
-    implementation "com.google.protobuf:protobuf-java:3.22.2"
-    implementation 'org.ejml:ejml-all:0.41'
-    implementation 'org.java-websocket:Java-WebSocket:1.5.3'
-    implementation 'com.googlecode.json-simple:json-simple:1.1.1'
-    implementation 'org.jmdns:jmdns:3.5.7'
-    
-    compileOnly 'org.projectlombok:lombok:1.18.30'
-    annotationProcessor 'org.projectlombok:lombok:1.18.30'
-
-    testImplementation "com.google.protobuf:protobuf-java:3.22.2"
-    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.1'
-    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-
-    implementation 'com.github.godbrigero:autobahn_client:4c1ea78b06'
+    sourceCompatibility = JavaVersion.VERSION_25
+    targetCompatibility = JavaVersion.VERSION_25
+    withSourcesJar()
 }
 
 repositories {
@@ -54,24 +21,48 @@ repositories {
     }
 }
 
-test {
+// WPILib and vendordeps are compileOnly so they stay out of the jar and the published POM;
+// the consuming robot project provides them through its own GradleRIO setup.
+dependencies {
+    annotationProcessor wpi.java.deps.wpilibAnnotations()
+    compileOnly wpi.java.deps.wpilib()
+    compileOnly wpi.java.vendor.java()
+
+    testImplementation wpi.java.deps.wpilib()
+    testImplementation wpi.java.vendor.java()
+
+    nativeDebug wpi.java.deps.wpilibJniDebug(wpi.platforms.desktop)
+    nativeDebug wpi.java.vendor.jniDebug(wpi.platforms.desktop)
+    simulationDebug wpi.sim.enableDebug()
+
+    nativeRelease wpi.java.deps.wpilibJniRelease(wpi.platforms.desktop)
+    nativeRelease wpi.java.vendor.jniRelease(wpi.platforms.desktop)
+    simulationRelease wpi.sim.enableRelease()
+
+    api "com.google.protobuf:protobuf-java:${protobufVersion}"
+    api 'com.github.godbrigero:autobahn_client:4c1ea78b06'
+    implementation 'com.google.code.gson:gson:2.10.1'
+    implementation 'org.ejml:ejml-all:0.46.0'
+    implementation 'org.java-websocket:Java-WebSocket:1.5.3'
+    implementation 'com.googlecode.json-simple:json-simple:1.1.1'
+    implementation 'org.jmdns:jmdns:3.5.7'
+
+    compileOnly "org.projectlombok:lombok:${lombokVersion}"
+    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.1'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+tasks.named('test', Test) {
     useJUnitPlatform()
     systemProperty 'junit.jupiter.extensions.autodetection.enabled', 'true'
 }
 
-// Setting up the Jar File as a library
-jar {
-    from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
-    from sourceSets.main.allSource
-    duplicatesStrategy = DuplicatesStrategy.INCLUDE
-}
-
-// Configure string concat to always inline compile
-tasks.withType(JavaCompile) {
+tasks.withType(JavaCompile).configureEach {
     options.compilerArgs.add '-XDstringConcat=inline'
 }
 
-// Configure for publishing as a library
 publishing {
     publications {
         maven(MavenPublication) {
@@ -80,34 +71,25 @@ publishing {
     }
 }
 
-// --- Protobuf setup ---
 protobuf {
     protoc {
-        artifact = "com.google.protobuf:protoc:3.22.2" // Use the desired protoc version
+        artifact = "com.google.protobuf:protoc:${protobufVersion}"
     }
     generateProtoTasks {
-        all().each { task ->
+        all().configureEach { task ->
             task.builtins {
-                java { // Enable Java generation
-                    option 'lite' // Use this option for smaller code (optional)
+                java {
+                    option 'lite'
                 }
             }
         }
     }
 }
 
-// Make sure protobuf compilation runs before building Java classes
-tasks.named('compileJava') {
-    dependsOn tasks.named('generateProto')
-}
-
 sourceSets {
     main {
         proto {
             srcDir 'src/proto'
-        }
-        java {
-            srcDirs += "$buildDir/generated/source/proto/main/java"
         }
     }
 }

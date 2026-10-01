@@ -1,8 +1,8 @@
 package pwrup.frc.core.controller;
 
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import java.util.List;
+import org.wpilib.command3.button.JoystickButton;
+import org.wpilib.driverstation.Joystick;
 
 /**
  * @author goofball06
@@ -14,19 +14,18 @@ public class LogitechController extends Joystick {
    * @implNote the default button enum for the logitec controller
    */
   public enum ButtonEnum {
-    // button indexes begin at 1 for some reason
-    X(1),
-    A(2),
-    B(3),
-    Y(4),
-    LEFTBUTTON(5),
-    RIGHTBUTTON(6),
-    LEFTTRIGGER(7),
-    RIGHTTRIGGER(8),
-    BACKBUTTON(9),
-    STARTBUTTON(10),
-    LEFTJOYSTICKBUTTON(11),
-    RIGHTJOYSTICKBUTTON(12);
+    X(0),
+    A(1),
+    B(2),
+    Y(3),
+    LEFTBUTTON(4),
+    RIGHTBUTTON(5),
+    LEFTTRIGGER(6),
+    RIGHTTRIGGER(7),
+    BACKBUTTON(8),
+    STARTBUTTON(9),
+    LEFTJOYSTICKBUTTON(10),
+    RIGHTJOYSTICKBUTTON(11);
 
     public int value;
 
