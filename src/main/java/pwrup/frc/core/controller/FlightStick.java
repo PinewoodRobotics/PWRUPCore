@@ -1,7 +1,7 @@
 package pwrup.frc.core.controller;
 
 import java.util.List;
-import org.wpilib.command3.button.JoystickButton;
+import org.wpilib.command2.button.JoystickButton;
 import org.wpilib.driverstation.Joystick;
 
 public class FlightStick extends Joystick {
